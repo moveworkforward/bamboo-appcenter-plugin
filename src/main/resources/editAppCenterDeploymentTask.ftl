@@ -6,7 +6,7 @@
     required='true'
 /]
 
-[@ww.appName
+[@ww.textfield
 labelKey='com.rivannikov.bamboo.appcenter.token'
 descriptionKey="com.rivannikov.bamboo.appcenter.token.info"
 name='token'

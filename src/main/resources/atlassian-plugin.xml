@@ -22,7 +22,7 @@
     </web-resource>
 
     <taskType key="bamboo.appcenter.deployment.task" name="App Center Deployment" class="com.rivannikov.bamboo.appcenter.AppCenterDeploymentTask">
-        <description>A task that publish your artifact file to App Center using the App Center API</description>
+        <description>Publish your artifact file to App Center using the App Center API</description>
         <category name="deployment"/>
         <configuration class="com.rivannikov.bamboo.appcenter.DeploymentTaskConfigurator"/>
         <resource type="freemarker" name="edit" location="editAppCenterDeploymentTask.ftl"/>

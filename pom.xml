@@ -14,7 +14,7 @@
     </organization>
 
     <name>App Center Plugin</name>
-    <description>This is the AppCenter plugin for Atlassian Bamboo.</description>
+    <description>This is the App Center plugin for Atlassian Bamboo.</description>
     <packaging>atlassian-plugin</packaging>
 
     <properties>
