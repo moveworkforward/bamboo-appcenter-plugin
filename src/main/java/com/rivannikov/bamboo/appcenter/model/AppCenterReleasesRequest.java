@@ -11,7 +11,7 @@ public class AppCenterReleasesRequest {
     @SerializedName("mandatory_update")
     private boolean mandatoryUpdate = false;
     @SerializedName("notify_testers")
-    private boolean notifyTesters = false; //TODO
+    private boolean notifyTesters = true;
 
     public String getId() {
         return id;

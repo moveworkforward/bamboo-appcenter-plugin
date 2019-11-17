@@ -1,4 +1,4 @@
-# Bamboo AppCenter Plugin
+# Bamboo App Center Plugin
 
 ## Overview
 Plugin for Atlassian Bamboo for uploading artifact files on AppCenter using App Center API.
