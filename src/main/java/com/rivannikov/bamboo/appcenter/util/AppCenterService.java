@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.Nonnull;
+import javax.annotation.PostConstruct;
 import javax.net.ssl.*;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -40,7 +41,7 @@ public class AppCenterService {
 
     private final LogUtils LOG;
     private final String token;
-    private final RestTemplate restTemplate;
+    private final RestTemplate restTemplate = new RestTemplate();
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public void setDebug(boolean debug) {
@@ -56,11 +57,15 @@ public class AppCenterService {
         this.LOG = new LogUtils(buildLogger);
         this.token = token;
         trustAllCertificates();
-        restTemplate = createRestTemplate();
         appCenterApiUrlHolder = new AppCenterApiUrlHolder(buildLogger, serverUrls);
     }
 
-    private RestTemplate createRestTemplate() {
+    @PostConstruct
+    private void init() {
+        initRestTemplate();
+    }
+
+    private void initRestTemplate() {
         TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
 
         SSLContext sslContext = null;
@@ -83,11 +88,8 @@ public class AppCenterService {
                 .build();
 
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-
         requestFactory.setHttpClient(httpClient);
-        RestTemplate restTemplate = new RestTemplate(requestFactory);
-        return restTemplate;
-
+        restTemplate.setRequestFactory(requestFactory);
     }
 
     /**

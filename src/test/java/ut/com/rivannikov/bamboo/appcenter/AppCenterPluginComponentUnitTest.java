@@ -44,6 +44,9 @@ public class AppCenterPluginComponentUnitTest
     @Test
     public void testUpdateApp() {
         appCenterService.setDebug(true);
+
+        String distributionGroupId = appCenterService.getDistributionGroupId(ownerName,"SPORTMASTER_CI_TEST");
+
         // 1. Create an upload resource
         AppCenterReleaseUploadsResponse uploads = appCenterService.createUpload(ownerName, appName);
         System.out.println(uploads.getUploadId());
@@ -56,7 +59,6 @@ public class AppCenterPluginComponentUnitTest
             AppCenterReleaseUploadsCommitResponse release = appCenterService.updateUpload(ownerName, appName, uploads.getUploadId());
             System.out.println(gson.toJson(release));
 
-            String distributionGroupId = appCenterService.getDistributionGroupId(ownerName,"SPORTMASTER_CI_TEST");
             // 4. Distribute the uploaded release
             result = appCenterService.distribute(ownerName, appName, release.getReleaseId(), "groups", distributionGroupId);
         }

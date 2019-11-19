@@ -17,8 +17,8 @@ package com.rivannikov.bamboo.appcenter.util;
 
 import com.atlassian.bamboo.build.logger.BuildLogger;
 import com.atlassian.bamboo.task.TaskException;
-import com.google.api.client.repackaged.com.google.common.base.Preconditions;
-import com.google.api.client.repackaged.com.google.common.base.Strings;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.rivannikov.bamboo.appcenter.model.AppCenterReleaseUploadsCommitResponse;
 import com.rivannikov.bamboo.appcenter.model.AppCenterReleaseUploadsResponse;
 import com.rivannikov.bamboo.appcenter.model.AppCenterReleasesResponse;
@@ -153,7 +153,7 @@ public class AppCenterPublisherHelper {
         }
 
         LOG.info("Connecting to AppCenter...");
-        String distributionGroupId = appCenterService.getDistributionGroupId(owner, "distributionGroupId");
+        String distributionGroupId = appCenterService.getDistributionGroupId(owner, distributionGroup);
         LOG.info("Connected successfully!");
 
         if (artifactFile == null) {
