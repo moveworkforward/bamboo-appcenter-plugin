@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.rivannikov.bamboo</groupId>
     <artifactId>bamboo-appcenter-plugin</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.6</version>
 
     <organization>
         <name>Roman Ivannikov</name>
@@ -70,6 +70,7 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.10</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- WIRED TEST RUNNER DEPENDENCIES -->
