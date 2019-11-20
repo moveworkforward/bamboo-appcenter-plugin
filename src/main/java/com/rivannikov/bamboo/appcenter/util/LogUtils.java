@@ -24,14 +24,14 @@ public class LogUtils {
     }
 
     public final void info(String text) {
-        logger.addBuildLogEntry(text);
+        if (text != null) logger.addBuildLogEntry(text);
     }
 
     public final void error(String text) {
-        logger.addBuildLogEntry(text);
+        if (text != null) logger.addBuildLogEntry(text);
     }
 
     public final void debug(String text) {
-        if (isDebug()) logger.addBuildLogEntry(text);
+        if (text != null && isDebug()) logger.addBuildLogEntry(text);
     }
 }

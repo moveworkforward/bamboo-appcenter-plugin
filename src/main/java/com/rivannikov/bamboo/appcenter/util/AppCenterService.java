@@ -19,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.Nonnull;
-import javax.annotation.PostConstruct;
 import javax.net.ssl.*;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -29,7 +28,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +39,7 @@ public class AppCenterService {
 
     private final LogUtils LOG;
     private final String token;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public void setDebug(boolean debug) {
@@ -56,16 +54,11 @@ public class AppCenterService {
     public AppCenterService(BuildLogger buildLogger, String serverUrls, String token) {
         this.LOG = new LogUtils(buildLogger);
         this.token = token;
-        trustAllCertificates();
+        restTemplate = createRestTemplate();
         appCenterApiUrlHolder = new AppCenterApiUrlHolder(buildLogger, serverUrls);
     }
 
-    @PostConstruct
-    private void init() {
-        initRestTemplate();
-    }
-
-    private void initRestTemplate() {
+    private RestTemplate createRestTemplate() {
         TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
 
         SSLContext sslContext = null;
@@ -85,11 +78,21 @@ public class AppCenterService {
 
         CloseableHttpClient httpClient = HttpClients.custom()
                 .setSSLSocketFactory(csf)
+                .setSSLHostnameVerifier(new HostnameVerifier() {
+                    @Override
+                    public boolean verify(String s, SSLSession sslSession) {
+                        return true;
+                    }
+                })
                 .build();
 
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+
         requestFactory.setHttpClient(httpClient);
-        restTemplate.setRequestFactory(requestFactory);
+        RestTemplate template = new RestTemplate();
+        template.setRequestFactory(requestFactory);
+        return template;
+
     }
 
     /**
@@ -295,25 +298,6 @@ public class AppCenterService {
                     }
                 }
         };
-    }
-
-    public static void trustAllCertificates() {
-        try {
-            TrustManager[] trustAllCerts = getTrustManagers();
-
-            SSLContext sc = SSLContext.getInstance("SSL");
-            sc.init(null, trustAllCerts, new SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String arg0, SSLSession arg1) {
-                    return true;
-                }
-            });
-
-
-        } catch (Exception e) {
-        }
     }
 
 }

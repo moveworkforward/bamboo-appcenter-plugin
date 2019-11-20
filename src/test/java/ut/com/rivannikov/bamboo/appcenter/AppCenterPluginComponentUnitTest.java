@@ -39,6 +39,13 @@ public class AppCenterPluginComponentUnitTest
         hockeyappUpload(uploads, "test.apk");
     }
 
+    @Test
+    public void testUploadUpdate() {
+        appCenterService.setDebug(true);
+        AppCenterReleaseUploadsCommitResponse response = appCenterService.updateUpload(ownerName, appName, "d1289880-ed96-0137-e509-061f30a48c6e");
+        Assert.assertNotNull(response.getReleaseId());
+    }
+
 
     // https://api.appcenter.ms/v0.1/apps/kb-4b1m/Sportmaster-2.0-CI_TEST/release_uploads/5f14b060-e8e5-0137-4f41-12e1a2d38976
     @Test
