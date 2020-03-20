@@ -179,7 +179,7 @@ public class AppCenterPublisherHelper {
 
         // 4. Distribute the uploaded release
         LOG.info("Distribute the uploaded release...");
-        AppCenterReleasesResponse result = appCenterService.distribute(owner, app, release.getReleaseId(), "groups", distributionGroupId);
+        AppCenterReleasesResponse result = appCenterService.distribute(owner, app, release.getReleaseId(), destinations, distributionGroupId);
         if (result.getId() == null) {
             throw new TaskException("Error Distribute the uploaded release on AppCenter");
         }
